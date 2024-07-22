@@ -18,6 +18,11 @@ public class TransactionController {
         return ResponseEntity.ok(transactionService.create(accountId, amount));
     }
 
+    @GetMapping("/account/{accountId}/balance")
+    public ResponseEntity<Double> findAccountBalance(@PathVariable("accountId") long accountId) {
+        return ResponseEntity.ok(transactionService.findAccountBalance(accountId));
+    }
+
     @GetMapping("/health")
     public String health() {
         return "Healthy";

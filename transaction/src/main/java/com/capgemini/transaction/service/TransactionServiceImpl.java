@@ -30,4 +30,9 @@ public class TransactionServiceImpl implements TransactionService {
 
         return transaction.getId();
     }
+
+    @Override
+    public Double findAccountBalance(long accountId) {
+        return transactionRepository.findAccountBalance(accountId);
+    }
 }
