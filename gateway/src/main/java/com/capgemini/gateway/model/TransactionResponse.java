@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 public class TransactionResponse {
 
-    private String accountId;
+    private Long accountId;
     private double balance;
     private LocalDateTime date;
 }

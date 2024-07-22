@@ -17,13 +17,13 @@ public class GatewayController {
     private final TransactionService transactionService;
 
     @PostMapping("/account")
-    public ResponseEntity<AccountResponse> create(@RequestParam String customerID,
+    public ResponseEntity<AccountResponse> create(@RequestParam Long customerID,
                                                   @RequestParam double initialCredit) {
         return ResponseEntity.ok(accountService.create(customerID, initialCredit));
     }
 
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<CustomerResponse> customerDetails(@PathVariable String customerId) {
+    public ResponseEntity<CustomerResponse> customerDetails(@PathVariable Long customerId) {
         return ResponseEntity.ok(accountService.customerDetails(customerId));
     }
 

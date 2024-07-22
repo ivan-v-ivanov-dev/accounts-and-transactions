@@ -4,3 +4,24 @@ server:
 spring:
   application:
     name: gateway
+
+#Feign Account service
+account:
+  create: /account/{customerId}
+  service:
+    feign:
+      client:
+        name: Account-Service
+    url: http://localhost:8082
+
+#Feign Transaction service
+transaction:
+  create: /transaction/account/{accountId}/{amount}
+  find:
+    account:
+      balance: /transaction/account/{accountId}/balance
+  service:
+    feign:
+      client:
+        name: Transaction-Service
+    url: http://localhost:8084

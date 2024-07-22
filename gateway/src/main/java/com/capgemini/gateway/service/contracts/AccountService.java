@@ -4,7 +4,7 @@ import com.capgemini.gateway.model.AccountResponse;
 import com.capgemini.gateway.model.CustomerResponse;
 
 public interface AccountService {
-    AccountResponse create(String customerID, double initialCredit);
+    AccountResponse create(Long customerID, double initialCredit);
 
-    CustomerResponse customerDetails(String customerId);
+    CustomerResponse customerDetails(Long customerId);
 }

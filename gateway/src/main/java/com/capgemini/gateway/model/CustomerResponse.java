@@ -17,6 +17,6 @@ public class CustomerResponse {
     private String firstName;
     private String lastName;
     private double balance;
-    Map<String, List<TransactionResponse>> transactions;
+    Map<Long, List<TransactionResponse>> transactions;
 
 }
