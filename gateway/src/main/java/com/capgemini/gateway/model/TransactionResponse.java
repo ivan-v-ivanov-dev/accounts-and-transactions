@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -15,5 +13,4 @@ public class TransactionResponse {
 
     private Long accountId;
     private double balance;
-    private LocalDateTime date;
 }

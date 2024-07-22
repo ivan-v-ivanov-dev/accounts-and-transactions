@@ -8,6 +8,9 @@ spring:
 #Feign Account service
 account:
   create: /account/{customerId}
+  find:
+    customer:
+      accounts: /customer/{customerId}
   service:
     feign:
       client:
@@ -16,10 +19,12 @@ account:
 
 #Feign Transaction service
 transaction:
-  create: /transaction/account/{accountId}/{amount}
+  create: /customer/{customerId}/account/{accountId}/{amount}
   find:
     account:
       balance: /transaction/account/{accountId}/balance
+    customer:
+      balance: /transaction/customer/{customerId}/
   service:
     feign:
       client:

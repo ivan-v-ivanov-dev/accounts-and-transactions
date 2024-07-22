@@ -6,17 +6,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Map;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Builder
+@Builder(toBuilder = true)
 public class CustomerResponse {
 
+    private long customerId;
     private String firstName;
     private String lastName;
     private double balance;
-    Map<Long, List<TransactionResponse>> transactions;
+    List<TransactionResponse> transactions;
 
 }

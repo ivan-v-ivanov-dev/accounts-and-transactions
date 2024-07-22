@@ -1,8 +1,9 @@
 package com.capgemini.gateway.service;
 
+import com.capgemini.gateway.adapter.AccountAdapter;
+import com.capgemini.gateway.adapter.TransactionAdapter;
 import com.capgemini.gateway.model.AccountResponse;
 import com.capgemini.gateway.model.CustomerResponse;
-import com.capgemini.gateway.model.TransactionResponse;
 import com.capgemini.gateway.service.contracts.AccountService;
 import com.capgemini.gateway.service.feign.AccountFeignClient;
 import com.capgemini.gateway.service.feign.TransactionFeignClient;
@@ -10,23 +11,21 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-
 @Service
 @AllArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
     private final AccountFeignClient accountFeignClient;
     private final TransactionFeignClient transactionFeignClient;
+    private final AccountAdapter accountAdapter;
+    private final TransactionAdapter transactionAdapter;
 
     @Override
     public AccountResponse create(Long customerID, double initialCredit) {
         ResponseEntity<Long> accountIdResponse = accountFeignClient.create(customerID);
 
         if (accountIdResponse.hasBody()) {
-            transactionFeignClient.create(accountIdResponse.getBody(), initialCredit);
+            transactionFeignClient.create(customerID, accountIdResponse.getBody(), initialCredit);
         }
 
         return AccountResponse.builder()
@@ -36,11 +35,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public CustomerResponse customerDetails(Long customerId) {
-        return CustomerResponse.builder()
-                .firstName("Ivan")
-                .lastName("Ivanov")
-                .balance(1.1)
-                .transactions(Map.of(customerId, List.of(TransactionResponse.builder()
-                        .accountId(1L).balance(111.1).date(LocalDateTime.now()).build()))).build();
+        CustomerResponse response = accountAdapter.fromCustomerDtoToCustomerResponse(
+                accountFeignClient.findByCustomerId(customerId).getBody());
+        transactionAdapter.fromTransactionsDetailsToCustomerResponse(response,
+                transactionFeignClient.findCustomerTransactions(customerId).getBody());
+        return response;
     }
 }
