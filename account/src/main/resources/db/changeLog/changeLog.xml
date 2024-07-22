@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet author="Ivan" id="Create tables" dbms="postgresql">
+
+        <createTable tableName="customers">
+            <column autoIncrement="true" name="id" type="int">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="first_name" type="varchar(30)">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="last_name" type="varchar(30)">
+                <constraints nullable="false" unique="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="accounts">
+            <column autoIncrement="true" name="id" type="int">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="customer_id" type="int">
+                <constraints nullable="false" unique="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="accounts"
+                                 baseColumnNames="customer_id"
+                                 constraintName="pk_accounts_customers"
+                                 referencedTableName="customers"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+
+    <changeSet id="Import data" author="Ivan">
+
+        <insert tableName="customers">
+            <column name="id" value="1"/>
+            <column name="first_name" value="Ivan"/>
+            <column name="last_name" value="Ivanov"/>
+        </insert>
+
+        <insert tableName="accounts">
+            <column name="id" value="1"/>
+            <column name="customer_id" value="1"/>
+        </insert>
+
+        <insert tableName="accounts">
+            <column name="id" value="2"/>
+            <column name="customer_id" value="1"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>
