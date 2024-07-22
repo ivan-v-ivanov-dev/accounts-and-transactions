@@ -1,6 +1,7 @@
 package com.capgemini.gateway.controller;
 
 import com.capgemini.gateway.model.AccountResponse;
+import com.capgemini.gateway.model.CustomerResponse;
 import com.capgemini.gateway.service.contracts.AccountService;
 import com.capgemini.gateway.service.contracts.TransactionService;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,11 @@ public class GatewayController {
     public ResponseEntity<AccountResponse> create(@RequestParam String customerID,
                                                   @RequestParam double initialCredit) {
         return ResponseEntity.ok(accountService.create(customerID, initialCredit));
+    }
+
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<CustomerResponse> customerDetails(@PathVariable String customerId) {
+        return ResponseEntity.ok(accountService.customerDetails(customerId));
     }
 
     @GetMapping("/health")
