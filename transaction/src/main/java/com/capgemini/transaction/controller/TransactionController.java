@@ -1,5 +1,6 @@
 package com.capgemini.transaction.controller;
 
+import com.capgemini.models.dto.TransactionDto;
 import com.capgemini.transaction.service.contract.TransactionService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,11 @@ public class TransactionController {
     @GetMapping("/account/{accountId}/balance")
     public ResponseEntity<Double> findAccountBalance(@PathVariable("accountId") long accountId) {
         return ResponseEntity.ok(transactionService.findAccountBalance(accountId));
+    }
+
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<TransactionDto> findCustomerTransactions(@PathVariable("customerId") long customerId) {
+        return ResponseEntity.ok(transactionService.findCustomerTransactions(customerId));
     }
 
     @GetMapping("/health")
