@@ -10,6 +10,9 @@
             <column autoIncrement="true" name="id" type="int">
                 <constraints primaryKey="true"/>
             </column>
+            <column name="customer_id" type="int">
+                <constraints nullable="false" unique="false"/>
+            </column>
             <column name="account_id" type="int">
                 <constraints nullable="false" unique="false"/>
             </column>

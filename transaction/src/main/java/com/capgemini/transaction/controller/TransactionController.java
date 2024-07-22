@@ -12,10 +12,11 @@ public class TransactionController {
 
     private final TransactionService transactionService;
 
-    @PostMapping("/account/{accountId}/{amount}")
-    public ResponseEntity<Long> create(@PathVariable("accountId") long accountId,
+    @PostMapping("/customer/{customerId}/account/{accountId}/{amount}")
+    public ResponseEntity<Long> create(@PathVariable("customerId") long customerId,
+                                       @PathVariable("accountId") long accountId,
                                        @PathVariable("amount") double amount) {
-        return ResponseEntity.ok(transactionService.create(accountId, amount));
+        return ResponseEntity.ok(transactionService.create(customerId, accountId, amount));
     }
 
     @GetMapping("/account/{accountId}/balance")

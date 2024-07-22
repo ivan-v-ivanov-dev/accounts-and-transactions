@@ -1,7 +1,7 @@
 package com.capgemini.transaction.service.contract;
 
 public interface TransactionService {
-    Long create(long accountId, double amount);
+    Long create(long customerId, long accountId, double amount);
 
     Double findAccountBalance(long accountId);
 }

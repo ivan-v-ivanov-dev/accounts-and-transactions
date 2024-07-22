@@ -23,6 +23,9 @@ public class Transaction {
     @Column(name = "id")
     private long id;
 
+    @Column(name = "customer_id")
+    private long customerId;
+
     @Column(name = "account_id")
     private long accountId;
 
