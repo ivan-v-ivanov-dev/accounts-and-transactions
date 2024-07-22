@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet author="Ivan" id="Create tables" dbms="postgresql">
+
+        <createTable tableName="transactions">
+            <column autoIncrement="true" name="id" type="int">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="account_id" type="int">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="amount" type="decimal">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="timestamp" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="Import data" author="Ivan">
+
+        <insert tableName="transactions">
+            <column name="id" value="1"/>
+            <column name="account_id" value="1"/>
+            <column name="amount" value="100.00"/>
+            <column name="timestamp" valueDate="2023-01-01T10:21:36"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>
