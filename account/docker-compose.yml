@@ -5,7 +5,7 @@ services:
   # PostreSQL
   postgres:
     image: postgres:12
-    container_name: postgres
+    container_name: account-postgres
     ports:
       - 5432:5432
     environment:
@@ -16,7 +16,7 @@ services:
   # Liquibase
   liquibase:
     image: liquibase/liquibase:4.9.1
-    container_name: liquibase
+    container_name: account-liquibase
     depends_on:
       - postgres
     volumes:
