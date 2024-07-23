@@ -12,6 +12,6 @@ public interface AccountFeignClient {
     @PostMapping("${account.create}")
     ResponseEntity<Long> create(@PathVariable("customerId") Long customerId);
 
-    @GetMapping("/customer/{customerId}")
+    @GetMapping("${account.find.customer.by.id}")
     ResponseEntity<String> findByCustomerId(@PathVariable("customerId") Long customerId);
 }

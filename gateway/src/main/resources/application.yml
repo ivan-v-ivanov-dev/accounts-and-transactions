@@ -10,7 +10,8 @@ account:
   create: /account/{customerId}
   find:
     customer:
-      accounts: /customer/{customerId}
+      by:
+        id: /account/customer/{customerId}
   service:
     feign:
       client:
@@ -19,7 +20,7 @@ account:
 
 #Feign Transaction service
 transaction:
-  create: /customer/{customerId}/account/{accountId}/{amount}
+  create: /transaction/customer/{customerId}/account/{accountId}/{amount}
   find:
     account:
       balance: /transaction/account/{accountId}/balance

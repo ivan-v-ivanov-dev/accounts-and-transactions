@@ -9,8 +9,11 @@ import java.util.Map;
 @Component
 public class TransactionAdapter {
 
-    public void fromTransactionsDetailsToCustomerResponse(CustomerResponse response, Map<Long, Double> transactionData) {
-        response.toBuilder()
+    public CustomerResponse fromTransactionsDetailsToCustomerResponse(CustomerResponse response, Map<Long, Double> transactionData) {
+        return response.toBuilder()
+                .customerId(response.getCustomerId())
+                .firstName(response.getFirstName())
+                .lastName(response.getLastName())
                 .transactions(transactionData.entrySet().stream()
                         .map(entry -> TransactionResponse.builder().accountId(entry.getKey()).balance(entry.getValue()).build())
                         .toList())

@@ -2,10 +2,9 @@ package com.capgemini.gateway.controller;
 
 import com.capgemini.gateway.exception.GeneralAccountException;
 import com.capgemini.gateway.model.AccountResponse;
-import com.capgemini.gateway.model.CustomerResponse;
 import com.capgemini.gateway.service.contracts.AccountService;
-import com.capgemini.gateway.service.contracts.TransactionService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class GatewayController {
 
     private final AccountService accountService;
-    private final TransactionService transactionService;
 
     @PostMapping("/account")
     public ResponseEntity<AccountResponse> create(@RequestParam Long customerID,
@@ -24,8 +22,12 @@ public class GatewayController {
     }
 
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<CustomerResponse> customerDetails(@PathVariable Long customerId) throws IllegalAccessException, GeneralAccountException {
-        return ResponseEntity.ok(accountService.customerDetails(customerId));
+    public ResponseEntity<?> customerDetails(@PathVariable Long customerId) throws IllegalAccessException, GeneralAccountException {
+        try {
+            return ResponseEntity.ok(accountService.customerDetails(customerId));
+        } catch (GeneralAccountException | IllegalAccessException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
     }
 
     @GetMapping("/health")
