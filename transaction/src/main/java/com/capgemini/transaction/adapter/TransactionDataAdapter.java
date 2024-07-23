@@ -1,6 +1,7 @@
 package com.capgemini.transaction.adapter;
 
 import com.capgemini.transaction.model.Transaction;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@NoArgsConstructor
 public class TransactionDataAdapter {
 
     public Map<Long, Double> fromListTransactionsToTransactionData(List<Transaction> transactions) {
