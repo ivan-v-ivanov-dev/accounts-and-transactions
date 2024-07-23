@@ -18,7 +18,7 @@ public class GatewayController {
 
     @PostMapping("/account")
     public ResponseEntity<AccountResponse> create(@RequestParam Long customerID,
-                                                  @RequestParam double initialCredit) {
+                                                  @RequestParam double initialCredit) throws IllegalAccessException {
         return ResponseEntity.ok(accountService.create(customerID, initialCredit));
     }
 
