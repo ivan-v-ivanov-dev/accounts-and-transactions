@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 
 import static java.lang.String.format;
 
-@Service
-@AllArgsConstructor
 @Slf4j
+@AllArgsConstructor
+@Service
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
