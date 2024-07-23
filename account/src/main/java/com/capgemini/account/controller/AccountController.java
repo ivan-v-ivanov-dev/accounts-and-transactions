@@ -1,7 +1,6 @@
 package com.capgemini.account.controller;
 
 import com.capgemini.account.service.contract.AccountService;
-import com.capgemini.models.dto.CustomerDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,7 @@ public class AccountController {
     }
 
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<CustomerDto> findByCustomerId(@PathVariable("customerId") Long customerId) {
+    public ResponseEntity<String> findByCustomerId(@PathVariable("customerId") Long customerId) {
         return ResponseEntity.ok(accountService.findByCustomerId(customerId));
     }
 

@@ -1,9 +1,9 @@
 package com.capgemini.account.service.contract;
 
-import com.capgemini.models.dto.CustomerDto;
+import com.capgemini.account.exception.NoSuchCustomerException;
 
 public interface AccountService {
     Long create(Long customerId);
 
-    CustomerDto findByCustomerId(Long customerId);
+    String findByCustomerId(Long customerId) throws NoSuchCustomerException;
 }
