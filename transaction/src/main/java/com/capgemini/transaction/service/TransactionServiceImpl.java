@@ -14,8 +14,8 @@ import java.util.Map;
 
 import static java.lang.String.format;
 
-@Service
 @AllArgsConstructor
+@Service
 public class TransactionServiceImpl implements TransactionService {
 
     private static final Logger log = LoggerFactory.getLogger(TransactionServiceImpl.class);
