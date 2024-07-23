@@ -1,9 +1,6 @@
 package com.capgemini.account.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,4 +20,8 @@ public class Account implements Serializable {
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
+
+    public Account(Customer customer) {
+        this.customer = customer;
+    }
 }

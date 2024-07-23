@@ -13,7 +13,7 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping("/{customerId}")
-    public ResponseEntity<Long> create(@RequestParam("customerId") Long customerId) {
+    public ResponseEntity<Long> create(@PathVariable("customerId") long customerId) {
         return ResponseEntity.ok(accountService.create(customerId));
     }
 

@@ -28,7 +28,7 @@ public class AccountServiceImpl implements AccountService {
                 .orElse(customerRepository.save(Customer.builder().id(customerId).build()));
         log.info(format("Customer %d retrieved/created", customer.getId()));
 
-        Account account = accountRepository.save(Account.builder().customer(customer).build());
+        Account account = accountRepository.save(new Account(customer));
         log.info(format("Account %d created", account.getId()));
         return account.getId();
     }
