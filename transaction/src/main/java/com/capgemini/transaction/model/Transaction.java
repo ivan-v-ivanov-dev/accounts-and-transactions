@@ -2,7 +2,6 @@ package com.capgemini.transaction.model;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +10,6 @@ import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Getter
 @Entity
 @Table(name = "transactions")
@@ -32,4 +30,11 @@ public class Transaction {
 
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
+
+    public Transaction(long customerId, long accountId, double amount, LocalDateTime timestamp) {
+        this.customerId = customerId;
+        this.accountId = accountId;
+        this.amount = amount;
+        this.timestamp = timestamp;
+    }
 }

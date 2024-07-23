@@ -32,11 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Long create(long customerId, long accountId, double amount) {
-        Transaction transaction = transactionRepository.save(Transaction.builder()
-                .customerId(customerId)
-                .accountId(accountId)
-                .amount(amount)
-                .timestamp(LocalDateTime.now()).build());
+        Transaction transaction = transactionRepository.save(new Transaction(customerId, accountId, amount, LocalDateTime.now()));
         log.info(format("Transaction %d for customer %d with account %d and amount %.2f created",
                 transaction.getId(), customerId, transaction.getAccountId(), transaction.getAmount()));
 
