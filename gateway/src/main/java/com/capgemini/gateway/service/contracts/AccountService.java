@@ -6,5 +6,5 @@ import com.capgemini.gateway.model.CustomerResponse;
 public interface AccountService {
     AccountResponse create(Long customerID, double initialCredit) throws IllegalAccessException;
 
-    CustomerResponse customerDetails(Long customerId);
+    CustomerResponse customerDetails(Long customerId) throws IllegalAccessException;
 }

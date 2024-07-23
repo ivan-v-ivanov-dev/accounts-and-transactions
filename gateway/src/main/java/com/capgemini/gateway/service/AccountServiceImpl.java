@@ -2,6 +2,7 @@ package com.capgemini.gateway.service;
 
 import com.capgemini.gateway.adapter.AccountAdapter;
 import com.capgemini.gateway.adapter.TransactionAdapter;
+import com.capgemini.gateway.exception.GeneralAccountException;
 import com.capgemini.gateway.model.AccountResponse;
 import com.capgemini.gateway.model.CustomerResponse;
 import com.capgemini.gateway.service.contracts.AccountService;
@@ -11,6 +12,8 @@ import feign.FeignException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import static java.lang.String.format;
 
 @Service
 @AllArgsConstructor
@@ -37,16 +40,34 @@ public class AccountServiceImpl implements AccountService {
                     .customerId(customerID)
                     .balance(transactionFeignClient.findAccountBalance(accountIdResponse).getBody()).build();
         } catch (FeignException ex) {
+            log.error(ex.getMessage());
             throw new IllegalAccessException("Transaction malfunction. Please, call support");
         }
     }
 
     @Override
-    public CustomerResponse customerDetails(Long customerId) {
-        CustomerResponse response = accountAdapter.fromCustomerDtoToCustomerResponse(
-                accountFeignClient.findByCustomerId(customerId).getBody());
-        transactionAdapter.fromTransactionsDetailsToCustomerResponse(response,
-                transactionFeignClient.findCustomerTransactions(customerId).getBody());
-        return response;
+    public CustomerResponse customerDetails(Long customerId) throws IllegalAccessException, GeneralAccountException {
+        try {
+            String customerData = accountFeignClient.findByCustomerId(customerId).getBody();
+            if (hasErrorInCustomerData(customerData)) {
+                throw new GeneralAccountException(format("Wrong customer Id &d", customerId));
+            }
+
+            CustomerResponse response = accountAdapter.fromCustomerDataToCustomerResponse(customerData);
+            transactionAdapter.fromTransactionsDetailsToCustomerResponse(response,
+                    transactionFeignClient.findCustomerTransactions(customerId).getBody());
+            log.info(format("Retrieve transaction information for customer &d", customerId));
+
+            return response;
+        } catch (FeignException ex) {
+            log.error(ex.getMessage());
+            throw new IllegalAccessException("Customer information unavailable. Please, call support");
+        } catch (GeneralAccountException ex) {
+            throw ex;
+        }
+    }
+
+    private boolean hasErrorInCustomerData(String customerData) {
+        return customerData.endsWith("true");
     }
 }

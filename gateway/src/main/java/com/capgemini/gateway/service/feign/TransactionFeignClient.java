@@ -1,11 +1,12 @@
 package com.capgemini.gateway.service.feign;
 
-import com.capgemini.models.dto.TransactionDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.Map;
 
 @FeignClient(name = "${transaction.service.feign.client.name}", url = "${transaction.service.url}")
 public interface TransactionFeignClient {
@@ -17,5 +18,5 @@ public interface TransactionFeignClient {
     ResponseEntity<Double> findAccountBalance(@PathVariable("accountId") long accountId);
 
     @GetMapping("${transaction.find.customer.balance}")
-    ResponseEntity<TransactionDto> findCustomerTransactions(@PathVariable("customerId") long customerId);
+    ResponseEntity<Map<Long, Double>> findCustomerTransactions(@PathVariable("customerId") long customerId);
 }

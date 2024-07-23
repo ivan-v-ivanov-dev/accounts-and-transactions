@@ -1,16 +1,21 @@
 package com.capgemini.gateway.adapter;
 
 import com.capgemini.gateway.model.CustomerResponse;
-import com.capgemini.models.dto.CustomerDto;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AccountAdapter {
 
-    public CustomerResponse fromCustomerDtoToCustomerResponse(CustomerDto dto) {
+    public CustomerResponse fromCustomerDataToCustomerResponse(String customerData) {
+        String[] parts = customerData.split("/");
+
+        long id = Long.parseLong(parts[0].split(":")[1]);
+        String firstName = parts[1].split(":")[1];
+        String lastName = parts[2].split(":")[1];
+
         return CustomerResponse.builder()
-                .customerId(dto.getCustomerId())
-                .firstName(dto.getFirstName())
-                .lastName(dto.getLastName()).build();
+                .customerId(id)
+                .firstName(firstName)
+                .lastName(lastName).build();
     }
 }

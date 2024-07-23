@@ -1,6 +1,5 @@
 package com.capgemini.gateway.service.feign;
 
-import com.capgemini.models.dto.CustomerDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,5 +13,5 @@ public interface AccountFeignClient {
     ResponseEntity<Long> create(@PathVariable("customerId") Long customerId);
 
     @GetMapping("/customer/{customerId}")
-    ResponseEntity<CustomerDto> findByCustomerId(@PathVariable("customerId") Long customerId);
+    ResponseEntity<String> findByCustomerId(@PathVariable("customerId") Long customerId);
 }

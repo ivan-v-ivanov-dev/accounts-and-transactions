@@ -1,5 +1,6 @@
 package com.capgemini.gateway.controller;
 
+import com.capgemini.gateway.exception.GeneralAccountException;
 import com.capgemini.gateway.model.AccountResponse;
 import com.capgemini.gateway.model.CustomerResponse;
 import com.capgemini.gateway.service.contracts.AccountService;
@@ -23,7 +24,7 @@ public class GatewayController {
     }
 
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<CustomerResponse> customerDetails(@PathVariable Long customerId) {
+    public ResponseEntity<CustomerResponse> customerDetails(@PathVariable Long customerId) throws IllegalAccessException, GeneralAccountException {
         return ResponseEntity.ok(accountService.customerDetails(customerId));
     }
 
