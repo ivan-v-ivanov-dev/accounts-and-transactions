@@ -7,12 +7,14 @@ import com.capgemini.gateway.model.CustomerResponse;
 import com.capgemini.gateway.service.contracts.AccountService;
 import com.capgemini.gateway.service.feign.AccountFeignClient;
 import com.capgemini.gateway.service.feign.TransactionFeignClient;
+import feign.FeignException;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class AccountServiceImpl implements AccountService {
 
     private final AccountFeignClient accountFeignClient;
@@ -21,16 +23,22 @@ public class AccountServiceImpl implements AccountService {
     private final TransactionAdapter transactionAdapter;
 
     @Override
-    public AccountResponse create(Long customerID, double initialCredit) {
-        ResponseEntity<Long> accountIdResponse = accountFeignClient.create(customerID);
+    public AccountResponse create(Long customerID, double initialCredit) throws IllegalAccessException {
+        try {
+            long accountIdResponse = accountFeignClient.create(customerID).getBody();
+            log.info("Account %d created for customer %d", accountIdResponse, customerID);
 
-        if (accountIdResponse.hasBody()) {
-            transactionFeignClient.create(customerID, accountIdResponse.getBody(), initialCredit);
+            if (initialCredit != 0.0) {
+                transactionFeignClient.create(customerID, accountIdResponse, initialCredit);
+                log.info("Transaction created for account %d", accountIdResponse);
+            }
+
+            return AccountResponse.builder()
+                    .customerId(customerID)
+                    .balance(transactionFeignClient.findAccountBalance(accountIdResponse).getBody()).build();
+        } catch (FeignException ex) {
+            throw new IllegalAccessException("Transaction malfunction. Please, call support");
         }
-
-        return AccountResponse.builder()
-                .customerId(customerID)
-                .balance(transactionFeignClient.findAccountBalance(accountIdResponse.getBody().longValue()).getBody()).build();
     }
 
     @Override
