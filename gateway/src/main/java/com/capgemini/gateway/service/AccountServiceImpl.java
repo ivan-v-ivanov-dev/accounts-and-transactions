@@ -4,12 +4,16 @@ import com.capgemini.gateway.adapter.AccountAdapter;
 import com.capgemini.gateway.exception.GeneralAccountException;
 import com.capgemini.gateway.model.AccountResponse;
 import com.capgemini.gateway.model.CustomerResponse;
+import com.capgemini.gateway.model.security.User;
+import com.capgemini.gateway.repository.UserRepository;
 import com.capgemini.gateway.service.contracts.AccountService;
 import com.capgemini.gateway.service.contracts.TransactionService;
 import com.capgemini.gateway.service.feign.AccountFeignClient;
 import feign.FeignException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import static java.lang.String.format;
@@ -22,6 +26,7 @@ public class AccountServiceImpl implements AccountService {
     private final TransactionService transactionService;
     private final AccountFeignClient accountFeignClient;
     private final AccountAdapter accountAdapter;
+    private final UserRepository userRepository;
 
     @Override
     public AccountResponse create(Long customerID, double initialCredit) throws IllegalAccessException {
@@ -62,6 +67,17 @@ public class AccountServiceImpl implements AccountService {
         } catch (GeneralAccountException ex) {
             throw ex;
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("Could not find user");
+        }
+
+        return user;
     }
 
     private boolean hasErrorInCustomerData(String customerData) {
