@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet author="Ivan" id="Create tables" dbms="postgresql">
+
+
+        <createTable tableName="roles">
+            <column autoIncrement="true" name="id" type="int">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(10)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="users">
+            <column autoIncrement="true" name="id" type="int">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="username" type="varchar(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="varchar(70)">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="enabled" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="role_id" type="int">
+                <constraints nullable="false" unique="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="users"
+                                 baseColumnNames="role_id"
+                                 constraintName="pk_users_roles"
+                                 referencedTableName="roles"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+
+    <changeSet id="Import data" author="Ivan">
+
+        <!--Roles import -->
+
+        <insert tableName="roles">
+            <column name="id" value="1"/>
+            <column name="name" value="user"/>
+        </insert>
+
+        <!-- User import -->
+
+        <insert tableName="users">
+            <column name="id" value="1"/>
+            <column name="username" value="user"/>
+            <column name="password" value="$2a$10$XMNKJSn7b0NUeNC7SSkf7ujP5TzFwsyNFB003fqCUSBtH.uEjWBUS"/>
+            <column name="enabled" value="true"/>
+            <column name="role_id" value="1"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

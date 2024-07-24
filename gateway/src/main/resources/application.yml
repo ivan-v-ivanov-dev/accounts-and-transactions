@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: gateway
+  datasource-postgres:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://127.0.0.1:5434/storage
+    username: root
+    password: root
 
 #Feign Account service
 account:
