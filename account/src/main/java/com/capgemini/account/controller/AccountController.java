@@ -18,7 +18,7 @@ public class AccountController {
     }
 
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<String> findByCustomerId(@PathVariable("customerId") Long customerId) {
+    public ResponseEntity<String> findByCustomerId(@PathVariable("customerId") long customerId) {
         return ResponseEntity.ok(accountService.findByCustomerId(customerId));
     }
 
