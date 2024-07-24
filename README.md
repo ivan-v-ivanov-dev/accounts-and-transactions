@@ -61,7 +61,7 @@ This service creates the transactions for each account(customer). Runs on http:/
 
 ![image](https://github.com/user-attachments/assets/aac7f843-a7c7-4a89-801c-ae06d8068805)
 
-(When creating a customer no names are set. We might expand this functionality to reùest from the user when registering the full person details.)
+(When creating a customer no names are set. We might expand this functionality to reqest from the user when registering the full person details.)
 
 Another sample user with more transactions
 
